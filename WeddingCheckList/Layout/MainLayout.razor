@@ -1,0 +1,23 @@
+﻿@inherits LayoutComponentBase
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+
+<div style="min-height:100vh; background: linear-gradient(135deg, #fff0f6 0%, #f3e8ff 100%); display: flex; flex-direction: column;">
+    <header style="background: linear-gradient(90deg, #ffdde1 0%, #ee9ca7 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.04); padding: 2rem 0 1.5rem 0; text-align: center;">
+        <h1 style="font-family: 'Segoe Script', 'Apple Chancery', cursive; color: #b983ff; font-size: 2.5rem; margin: 0; letter-spacing: 2px;">
+            💍 결혼 준비 체크리스트
+        </h1>
+        <div style="color: #ffb300; font-size: 1.2rem; margin-top: 0.5rem; font-family: 'Segoe UI', sans-serif;">
+            두 사람의 소중한 시작을 위한 특별한 준비를 함께하세요
+        </div>
+    </header>
+    <main style="flex:1; display: flex; justify-content: center; align-items: flex-start; padding: 2rem 0;">
+        <article style="width: 100%; background: rgba(255,255,255,0.85); border-radius: 1.5rem; box-shadow: 0 4px 24px 0 rgba(186,144,255,0.08); padding: 3rem 2.5rem; min-height: 80vh; display: flex; flex-direction: column; justify-content: stretch;">
+            @Body
+        </article>
+    </main>
+    <footer style="text-align:center; color:#b983ff; font-size:1rem; padding:1rem 0 0.5rem 0; font-family:'Segoe UI',sans-serif;">
+        © 2024 WeddingCheckList | Made with 💜 for your special day
+    </footer>
+</div>

@@ -1,0 +1,246 @@
+﻿@page "/"
+@using System.Text.Json
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@using MudBlazor
+<style>
+    .mud-popover .mud-list-item {
+        background-color: white !important;
+    }
+</style>
+
+<MudContainer Class="pa-0" Style="max-width:100vw;">
+    <MudPaper Class="pa-0" Elevation="3" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); max-width:100vw;">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+            <MudText Typo="Typo.h4" Class="white--text">
+                💍 결혼 준비 체크리스트
+            </MudText>
+            <MudChip T="string" Color="Color.Info" Variant="Variant.Outlined" Class="white--text">
+                총 @Items.Count 개 항목
+            </MudChip>
+        </MudStack>
+    </MudPaper>
+
+    <MudPaper Class="pa-0 mt-4" Elevation="2" Style="max-width:100vw;">
+        @if (Items.Count == 0)
+        {
+            <MudAlert Severity="Severity.Info" Class="mb-4">
+                <MudText>아직 등록된 항목이 없습니다. 아래 버튼을 클릭하여 첫 번째 항목을 추가해보세요!</MudText>
+            </MudAlert>
+        }
+
+        <MudTable Items="@(Items ?? new List<ChecklistItem>())" Hover="true" Elevation="1" Striped="true" Dense="true" Class="mt-4">
+            <HeaderContent>
+                <MudTh Style="min-width: 140px;">카테고리</MudTh>
+                <MudTh Style="min-width: 150px;">항목</MudTh>
+                <MudTh Style="min-width: 120px;">업체명</MudTh>
+                <MudTh Style="min-width: 120px;">계약금</MudTh>
+                <MudTh Style="min-width: 120px;">잔금</MudTh>
+                <MudTh Style="min-width: 120px;">최종 금액</MudTh>
+                <MudTh Style="min-width: 100px;">담당자</MudTh>
+                <MudTh Style="min-width: 80px;">후기</MudTh>
+                <MudTh Style="min-width: 120px;">비고</MudTh>
+                <MudTh Style="min-width: 80px;">삭제</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>
+                    <MudSelect T="CategoryType" @bind-Value="context.Category" Variant="Variant.Outlined" Size="Size.Medium" Style="min-width:140px;">
+                        @foreach (CategoryType category in Enum.GetValues(typeof(CategoryType)))
+                        {
+                            <MudSelectItem T="CategoryType" Value="@category">@category.ToString()</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudTd>
+                <MudTd>
+                    <MudTextField @bind-Value="context.Title" Variant="Variant.Outlined" Size="Size.Small" Placeholder="예: 웨딩홀 예약" dense="true" />
+                </MudTd>
+                <MudTd>
+                    <MudTextField @bind-Value="context.Vendor" Variant="Variant.Outlined" Size="Size.Small" Placeholder="업체명" dense="true" />
+                </MudTd>
+                <MudTd>
+                    <MudTextField @bind-Value="context.DepositString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" dense="true" Adornment="Adornment.End" AdornmentText="원" OnBlur="@(() => ParseDeposit(context))" Style="min-width:120px;" />
+                </MudTd>
+                <MudTd>
+                    <MudTextField @bind-Value="context.RemainString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" dense="true" Adornment="Adornment.End" AdornmentText="원" OnBlur="@(() => ParseRemain(context))" Style="min-width:120px;" />
+                </MudTd>
+                <MudTd>
+                    <MudChip T="string" Color="@(GetTotalAmountColor(context.Deposit + context.Remain))" Size="Size.Small">
+                        @((context.Deposit + context.Remain).ToString("N0"))원
+                    </MudChip>
+                </MudTd>
+                <MudTd>
+                    <MudSelect T="string" @bind-Value="context.PaidBy" Variant="Variant.Outlined" Size="Size.Small" dense="true">
+                        <MudSelectItem Value="@("신랑")">신랑</MudSelectItem>
+                        <MudSelectItem Value="@("신부")">신부</MudSelectItem>
+                    </MudSelect>
+                </MudTd>
+                <MudTd>
+                    <MudCheckBox T="bool" @bind-Checked="context.ReviewDone" Color="Color.Success" />
+                </MudTd>
+                <MudTd>
+                    <MudTextField @bind-Value="context.Memo" Variant="Variant.Outlined" Size="Size.Small" 
+                                 Placeholder="메모" dense="true" />
+                </MudTd>
+                <MudTd>
+                    <MudIconButton Icon="mdi-delete" Color="Color.Error" Size="Size.Small" 
+                                  OnClick="@(() => RemoveItem(context))" />
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+
+        @if (Items.Count > 0)
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.SpaceBetween">
+                <MudStack Row="true" Spacing="2">
+                    <MudButton Variant="Variant.Filled" OnClick="AddItem" Color="Color.Primary" 
+                              StartIcon="mdi-plus" Size="Size.Small">항목 추가</MudButton>
+                    <MudButton Variant="Variant.Outlined" OnClick="Save" Color="Color.Secondary" 
+                              StartIcon="mdi-content-save" Size="Size.Small">저장</MudButton>
+                </MudStack>
+                <MudStack Row="true" Spacing="2">
+                    <MudChip T="string" Color="Color.Info" Size="Size.Small">
+                        총 금액: @GetTotalAmount().ToString("N0")원
+                    </MudChip>
+                    <MudChip T="string" Color="Color.Success" Size="Size.Small">
+                        완료: @GetCompletedCount()개
+                    </MudChip>
+                </MudStack>
+            </MudStack>
+        }
+        else
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                <MudButton Variant="Variant.Filled" OnClick="AddItem" Color="Color.Primary" 
+                          StartIcon="mdi-plus" Size="Size.Large">첫 번째 항목 추가하기</MudButton>
+            </MudStack>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    public enum CategoryType
+    {
+        상견례,
+        본식,
+        본식사례금,  // 띄어쓰기 제거
+        스튜디오,
+        드레스,
+        메이크업,
+        혼주한복,   // 띄어쓰기 제거
+        예물,
+        예복,
+        야외촬영,
+        신혼여행,
+        기타
+    }
+
+    public class ChecklistItem
+    {
+        public CategoryType Category { get; set; }  // 변경된 부분
+        public string Title { get; set; } = "";
+        public string Vendor { get; set; } = "";
+        public int Deposit { get; set; }
+        public int Remain { get; set; }
+        public string PaidBy { get; set; } = "신랑";
+        public bool ReviewDone { get; set; }
+        public string Memo { get; set; } = "";
+        public string DepositString
+        {
+            get => Deposit.ToString("N0");
+            set
+            {
+                if (int.TryParse(value.Replace(",", "").Replace("원", "").Trim(), out var v))
+                    Deposit = v;
+            }
+        }
+        public string RemainString
+        {
+            get => Remain.ToString("N0");
+            set
+            {
+                if (int.TryParse(value.Replace(",", "").Replace("원", "").Trim(), out var v))
+                    Remain = v;
+            }
+        }
+    }
+
+    List<ChecklistItem> Items = new List<ChecklistItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var json = await JS.InvokeAsync<string>("localStorage.getItem", "weddingChecklist");
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                var deserializedItems = JsonSerializer.Deserialize<List<ChecklistItem>>(json);
+                if (deserializedItems != null)
+                {
+                    Items = deserializedItems;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // localStorage 접근 실패 시 빈 리스트로 시작
+            Items = new List<ChecklistItem>();
+            Console.WriteLine($"localStorage 접근 오류: {ex.Message}");
+        }
+    }
+
+    void AddItem()
+    {
+        Items.Add(new ChecklistItem());
+    }
+
+    void RemoveItem(ChecklistItem item)
+    {
+        Items.Remove(item);
+    }
+
+    async Task Save()
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(Items);
+            await JS.InvokeVoidAsync("localStorage.setItem", "weddingChecklist", json);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"저장 오류: {ex.Message}");
+        }
+    }
+
+    private Color GetTotalAmountColor(int amount)
+    {
+        return amount switch
+        {
+            > 10000000 => Color.Error,    // 1000만원 이상
+            > 5000000 => Color.Warning,   // 500만원 이상
+            > 1000000 => Color.Info,      // 100만원 이상
+            _ => Color.Success            // 100만원 미만
+        };
+    }
+
+    private int GetTotalAmount()
+    {
+        return Items.Sum(item => item.Deposit + item.Remain);
+    }
+
+    private int GetCompletedCount()
+    {
+        return Items.Count(item => item.ReviewDone);
+    }
+
+    void ParseDeposit(ChecklistItem item)
+    {
+        // 입력값을 포맷팅해서 다시 보여줌
+        item.DepositString = item.Deposit.ToString("N0");
+    }
+    void ParseRemain(ChecklistItem item)
+    {
+        item.RemainString = item.Remain.ToString("N0");
+    }
+}
