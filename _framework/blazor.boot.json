@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "WeddingCheckList",
   "resources": {
-    "hash": "sha256-DySU4WVtmMDWsHRnCX01N6PV3n//ojvopsAKRF755mc=",
+    "hash": "sha256-CiW36TR3AvpAZvhty/O8go1vONe2dQ1Qa8WDTDjr/0E=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.31ztq4xti6.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Forms.bccwmurmxd.wasm": "Microsoft.AspNetCore.Components.Forms.wasm",
@@ -44,7 +44,7 @@
       "System.Text.RegularExpressions.pl7zy96iyz.wasm": "System.Text.RegularExpressions.wasm",
       "System.wznexm8bk2.wasm": "System.wasm",
       "System.Private.CoreLib.jgkomgjy4x.wasm": "System.Private.CoreLib.wasm",
-      "WeddingCheckList.xcyj4h7zsy.wasm": "WeddingCheckList.wasm",
+      "WeddingCheckList.kn1a6cbtr9.wasm": "WeddingCheckList.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.st0ovrfdhi.js": "dotnet.native.js",
       "dotnet.native.67rumul467.wasm": "dotnet.native.wasm",
@@ -111,7 +111,7 @@
       "System.Text.Json.w54amogqg4.wasm": "sha256-lOltX5H2348E4MDBDV+uT0+pmx4MWu3tB7iT3hOyC/4=",
       "System.Text.RegularExpressions.pl7zy96iyz.wasm": "sha256-w+hmfGlpAgLGGvJP0fn/Q52eWQocsCJwnOHvTTC674s=",
       "System.wznexm8bk2.wasm": "sha256-/Imz/Enqa2AZc4T3k/CqtsM6674KRN9OUtvK4Nokhew=",
-      "WeddingCheckList.xcyj4h7zsy.wasm": "sha256-scwZLSnVaa84+YW2+08t2bnLX1dd+upxImxhAEz0OcI="
+      "WeddingCheckList.kn1a6cbtr9.wasm": "sha256-4IzyKib74KEzWaG/EReeYcjOkHeHk5h487k2KsNbwHg="
     }
   },
   "cacheBootResources": true,
