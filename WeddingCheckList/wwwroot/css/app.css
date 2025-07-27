@@ -1,3 +1,43 @@
+:root {
+    /* 배경 색상 */
+    --color-white: #efebe0;
+    --color-pink: #fb8da0;
+    --color-hot-pink: #fb6b90;
+    --color-fuchsia: #fb4570;
+    /* 글자 색상 */
+    --text-brown: #4e3c30;
+    --text-gray: #444444;
+    --text-burgundy: #8b2c4a;
+    --text-deep-pink: #c2185b;
+    --text-black: #000000;
+}
+
+/* 예시: 공통 텍스트 스타일 */
+.body-text {
+    color: var(--text-brown);
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+}
+
+.highlight {
+    color: var(--text-burgundy);
+    font-weight: bold;
+}
+
+.link {
+    color: var(--text-deep-pink);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.bg-pink {
+    background-color: var(--color-pink);
+}
+
+.bg-white {
+    background-color: var(--color-white);
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

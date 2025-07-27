@@ -10,12 +10,12 @@
 </style>
 
 <MudContainer Class="pa-0" Style="max-width:100vw;">
-    <MudPaper Class="pa-0" Elevation="3" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); max-width:100vw;">
+    <MudPaper Class="pa-0" Elevation="3" Style="background: linear-gradient(135deg, #fb6b90 0%, #fb4570 100%); max-width:100vw;">
         <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
-            <MudText Typo="Typo.h4" Class="white--text">
+            <MudText Typo="Typo.h4" Style="color: black;">
                 💍 결혼 준비 체크리스트
             </MudText>
-            <MudChip T="string" Color="Color.Info" Variant="Variant.Outlined" Class="white--text">
+            <MudChip T="string" Color="Color.Default" Variant="Variant.Outlined" Style="color: black; border-color: #fb8da0;">
                 총 @Items.Count 개 항목
             </MudChip>
         </MudStack>
@@ -29,80 +29,25 @@
             </MudAlert>
         }
 
-        <MudTable Items="@(Items ?? new List<ChecklistItem>())" Hover="true" Elevation="1" Striped="true" Dense="true" Class="mt-4">
-            <HeaderContent>
-                <MudTh Style="min-width: 140px;">카테고리</MudTh>
-                <MudTh Style="min-width: 150px;">항목</MudTh>
-                <MudTh Style="min-width: 120px;">업체명</MudTh>
-                <MudTh Style="min-width: 120px;">계약금</MudTh>
-                <MudTh Style="min-width: 120px;">잔금</MudTh>
-                <MudTh Style="min-width: 120px;">최종 금액</MudTh>
-                <MudTh Style="min-width: 100px;">담당자</MudTh>
-                <MudTh Style="min-width: 80px;">후기</MudTh>
-                <MudTh Style="min-width: 120px;">비고</MudTh>
-                <MudTh Style="min-width: 80px;">삭제</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                <MudTd>
-                    <MudSelect T="CategoryType" @bind-Value="context.Category" Variant="Variant.Outlined" Size="Size.Medium" Style="min-width:140px;">
-                        @foreach (CategoryType category in Enum.GetValues(typeof(CategoryType)))
-                        {
-                            <MudSelectItem T="CategoryType" Value="@category">@category.ToString()</MudSelectItem>
-                        }
-                    </MudSelect>
-                </MudTd>
-                <MudTd>
-                    <MudTextField @bind-Value="context.Title" Variant="Variant.Outlined" Size="Size.Small" Placeholder="예: 웨딩홀 예약" dense="true" />
-                </MudTd>
-                <MudTd>
-                    <MudTextField @bind-Value="context.Vendor" Variant="Variant.Outlined" Size="Size.Small" Placeholder="업체명" dense="true" />
-                </MudTd>
-                <MudTd>
-                    <MudTextField @bind-Value="context.DepositString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" dense="true" Adornment="Adornment.End" AdornmentText="원" OnBlur="@(() => ParseDeposit(context))" Style="min-width:120px;" />
-                </MudTd>
-                <MudTd>
-                    <MudTextField @bind-Value="context.RemainString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" dense="true" Adornment="Adornment.End" AdornmentText="원" OnBlur="@(() => ParseRemain(context))" Style="min-width:120px;" />
-                </MudTd>
-                <MudTd>
-                    <MudChip T="string" Color="@(GetTotalAmountColor(context.Deposit + context.Remain))" Size="Size.Small">
-                        @((context.Deposit + context.Remain).ToString("N0"))원
-                    </MudChip>
-                </MudTd>
-                <MudTd>
-                    <MudSelect T="string" @bind-Value="context.PaidBy" Variant="Variant.Outlined" Size="Size.Small" dense="true">
-                        <MudSelectItem Value="@("신랑")">신랑</MudSelectItem>
-                        <MudSelectItem Value="@("신부")">신부</MudSelectItem>
-                    </MudSelect>
-                </MudTd>
-                <MudTd>
-                    <MudCheckBox T="bool" @bind-Checked="context.ReviewDone" Color="Color.Success" />
-                </MudTd>
-                <MudTd>
-                    <MudTextField @bind-Value="context.Memo" Variant="Variant.Outlined" Size="Size.Small" 
-                                 Placeholder="메모" dense="true" />
-                </MudTd>
-                <MudTd>
-                    <MudIconButton Icon="mdi-delete" Color="Color.Error" Size="Size.Small" 
-                                  OnClick="@(() => RemoveItem(context))" />
-                </MudTd>
-            </RowTemplate>
-        </MudTable>
-
-        @if (Items.Count > 0)
+        <MudText Typo="Typo.h6" Class="mt-4">📌 본식 전</MudText>
+        @RenderCategoryGroup(CategoryPeriod.본식전)
+        @if (Items.Count(i => GetCategoryPeriod(i.Category) == CategoryPeriod.본식전) > 0)
         {
             <MudDivider Class="my-4" />
             <MudStack Row="true" Spacing="2" Justify="Justify.SpaceBetween">
                 <MudStack Row="true" Spacing="2">
-                    <MudButton Variant="Variant.Filled" OnClick="AddItem" Color="Color.Primary" 
-                              StartIcon="mdi-plus" Size="Size.Small">항목 추가</MudButton>
-                    <MudButton Variant="Variant.Outlined" OnClick="Save" Color="Color.Secondary" 
-                              StartIcon="mdi-content-save" Size="Size.Small">저장</MudButton>
+                    <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.본식전)" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small">
+                        항목 추가
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined" OnClick="Save" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small">
+                        저장
+                    </MudButton>
                 </MudStack>
                 <MudStack Row="true" Spacing="2">
-                    <MudChip T="string" Color="Color.Info" Size="Size.Small">
-                        총 금액: @GetTotalAmount().ToString("N0")원
+                    <MudChip T="string" Color="Color.Info" Size="Size.Medium">
+                        본식 전 총 금액: @GetTotalAmountByCategoryPeriod(CategoryPeriod.본식전).ToString("N0")원
                     </MudChip>
-                    <MudChip T="string" Color="Color.Success" Size="Size.Small">
+                    <MudChip T="string" Color="Color.Success" Size="Size.Medium">
                         완료: @GetCompletedCount()개
                     </MudChip>
                 </MudStack>
@@ -112,37 +57,217 @@
         {
             <MudDivider Class="my-4" />
             <MudStack Row="true" Spacing="2" Justify="Justify.Center">
-                <MudButton Variant="Variant.Filled" OnClick="AddItem" Color="Color.Primary" 
-                          StartIcon="mdi-plus" Size="Size.Large">첫 번째 항목 추가하기</MudButton>
+                <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.본식전)" Color="Color.Primary" Size="Size.Large">
+                    ➕ 첫 번째 항목 추가하기
+                </MudButton>
             </MudStack>
         }
+
+        <MudText Typo="Typo.h6" Class="mt-4">👰 본식</MudText>
+        @RenderCategoryGroup(CategoryPeriod.본식)
+        @if (Items.Count(i => GetCategoryPeriod(i.Category) == CategoryPeriod.본식) > 0)
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.SpaceBetween">
+                <MudStack Row="true" Spacing="2">
+                    <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.본식)" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small">
+                        항목 추가
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined" OnClick="Save" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small">
+                        저장
+                    </MudButton>
+                </MudStack>
+                <MudStack Row="true" Spacing="2">
+                    <MudChip T="string" Color="Color.Info" Size="Size.Medium">
+                        본식 총 금액: @GetTotalAmountByCategoryPeriod(CategoryPeriod.본식).ToString("N0")원
+                    </MudChip>
+                    <MudChip T="string" Color="Color.Success" Size="Size.Medium">
+                        완료: @GetCompletedCount()개
+                    </MudChip>
+                </MudStack>
+            </MudStack>
+        }
+        else
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.본식)" Color="Color.Primary" Size="Size.Large">
+                    ➕ 첫 번째 항목 추가하기
+                </MudButton>
+            </MudStack>
+        }
+
+        <MudText Typo="Typo.h6" Class="mt-4">🏝️ 본식 후</MudText>
+        @RenderCategoryGroup(CategoryPeriod.본식후)
+        @if (Items.Count(i => GetCategoryPeriod(i.Category) == CategoryPeriod.본식후) > 0)
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.SpaceBetween">
+                <MudStack Row="true" Spacing="2">
+                    <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.본식후)" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small">
+                        항목 추가
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined" OnClick="Save" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small">
+                        저장
+                    </MudButton>
+                </MudStack>
+                <MudStack Row="true" Spacing="2">
+                    <MudChip T="string" Color="Color.Info" Size="Size.Medium">
+                        본식 후 총 금액: @GetTotalAmountByCategoryPeriod(CategoryPeriod.본식후).ToString("N0")원
+                    </MudChip>
+                    <MudChip T="string" Color="Color.Success" Size="Size.Medium">
+                        완료: @GetCompletedCount()개
+                    </MudChip>
+                </MudStack>
+            </MudStack>
+        }
+        else
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.본식후)" Color="Color.Primary" Size="Size.Large">
+                    ➕ 첫 번째 항목 추가하기
+                </MudButton>
+            </MudStack>
+        }
+
+        <MudText Typo="Typo.h6" Class="mt-4">📝 기타</MudText>
+        @RenderCategoryGroup(CategoryPeriod.기타)
+        @if (Items.Count(i => GetCategoryPeriod(i.Category) == CategoryPeriod.기타) > 0)
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.SpaceBetween">
+                <MudStack Row="true" Spacing="2">
+                    <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.기타)" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small">
+                        항목 추가
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined" OnClick="Save" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.Save" Size="Size.Small">
+                        저장
+                    </MudButton>
+                </MudStack>
+                <MudStack Row="true" Spacing="2">
+                    <MudChip T="string" Color="Color.Info" Size="Size.Medium">
+                        본식 후 총 금액: @GetTotalAmountByCategoryPeriod(CategoryPeriod.기타).ToString("N0")원
+                    </MudChip>
+                    <MudChip T="string" Color="Color.Success" Size="Size.Medium">
+                        완료: @GetCompletedCount()개
+                    </MudChip>
+                </MudStack>
+            </MudStack>
+        }
+        else
+        {
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.Center">
+                <MudButton Variant="Variant.Filled" OnClick="() => AddItem(CategoryPeriod.기타)" Color="Color.Primary" Size="Size.Large">
+                    ➕ 첫 번째 항목 추가하기
+                </MudButton>
+            </MudStack>
+        }
+        <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexEnd" Spacing="2">
+            <MudChip T="string" Color="Color.Success" Size="Size.Large">
+                전체 총 금액: @GetTotalAmount().ToString("N0")원
+            </MudChip>
+            <MudButton OnClick="@ExportToExcel" Color="Color.Primary" Variant="Variant.Filled" Class="me-2" Size="Size.Small">
+                <i class="fas fa-file-excel" style="color: green; margin-right: 8px;"></i> Excel로 저장
+            </MudButton>
+        </MudStack>
     </MudPaper>
 </MudContainer>
 
 @code {
+    RenderFragment RenderCategoryGroup(CategoryPeriod period) => @<MudTable Items="@(Items.Where(i => GetCategoryPeriod(i.Category) == period))" Hover="true" Elevation="1" Striped="true" Dense="true" Class="mt-4">
+        <HeaderContent>
+            <MudTh Style="min-width: 140px;">카테고리</MudTh>
+            <MudTh Style="min-width: 150px;">항목</MudTh>
+            <MudTh Style="min-width: 120px;">업체명</MudTh>
+            <MudTh Style="min-width: 120px;">계약금</MudTh>
+            <MudTh Style="min-width: 120px;">잔금</MudTh>
+            <MudTh Style="min-width: 120px;">최종 금액</MudTh>
+            <MudTh Style="min-width: 100px;">담당자</MudTh>
+            <MudTh Style="min-width: 80px;">후기</MudTh>
+            <MudTh Style="min-width: 120px;">비고</MudTh>
+            <MudTh Style="min-width: 80px;">삭제</MudTh>
+        </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            <MudSelect T="CategoryType" @bind-Value="context.Category" Variant="Variant.Outlined" Size="Size.Medium" Style="min-width:140px;">
+                @foreach (CategoryType category in Enum.GetValues(typeof(CategoryType)))
+                {
+                    if (GetCategoryPeriod(category) == GetCategoryPeriod(context.Category))
+                    {
+                        <MudSelectItem T="CategoryType" Value="@category">@category.ToString()</MudSelectItem>
+                    }
+                }
+            </MudSelect>
+        </MudTd>
+        <MudTd>
+            <MudTextField @bind-Value="context.Title" Variant="Variant.Outlined" Size="Size.Small" Placeholder="예: 웨딩홀 예약" dense="true" />
+        </MudTd>
+        <MudTd>
+            <MudTextField @bind-Value="context.Vendor" Variant="Variant.Outlined" Size="Size.Small" Placeholder="업체명" dense="true" />
+        </MudTd>
+        <MudTd>
+            <MudTextField @bind-Value="context.DepositString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" Adornment="Adornment.End" AdornmentText="원"
+                  InputType="InputType.Text" Class="text-end" OnBlur="@(() => ParseDeposit(context))" Style="min-width:120px;" />
+        </MudTd>
+        <MudTd>
+            <MudTextField @bind-Value="context.RemainString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" Adornment="Adornment.End" AdornmentText="원"
+                  InputType="InputType.Text" Class="text-end" OnBlur="@(() => ParseRemain(context))" Style="min-width:120px;" />
+        </MudTd>
+        <MudTd>
+            <MudChip T="string" Color="@(GetTotalAmountColor(context.Deposit + context.Remain))" Size="Size.Small">
+                @((context.Deposit + context.Remain).ToString("N0"))원
+            </MudChip>
+        </MudTd>
+        <MudTd>
+            <MudSelect T="string" @bind-Value="context.PaidBy" Variant="Variant.Outlined" Size="Size.Small" dense="true">
+                <MudSelectItem Value="@("신랑")">신랑</MudSelectItem>
+                <MudSelectItem Value="@("신부")">신부</MudSelectItem>
+            </MudSelect>
+        </MudTd>
+        <MudTd>
+            <MudCheckBox T="bool" @bind-Checked="context.ReviewDone" Color="Color.Success" />
+        </MudTd>
+        <MudTd>
+            <MudTextField @bind-Value="context.Memo" Variant="Variant.Outlined" Size="Size.Small" Placeholder="메모" dense="true" />
+        </MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => RemoveItem(context))" />
+        </MudTd>
+    </RowTemplate>
+    </MudTable>;
+    public enum CategoryPeriod
+    {
+        본식전,
+        본식,
+        본식후,
+        기타
+    }
     public enum CategoryType
     {
         상견례,
         본식,
-        본식사례금,  // 띄어쓰기 제거
+        본식사례금,
         스튜디오,
         드레스,
         메이크업,
-        혼주한복,   // 띄어쓰기 제거
+        혼주한복,
         예물,
         예복,
         야외촬영,
         신혼여행,
+        DVD,
         기타
     }
 
     public class ChecklistItem
     {
-        public CategoryType Category { get; set; }  // 변경된 부분
+        public CategoryType Category { get; set; }
         public string Title { get; set; } = "";
         public string Vendor { get; set; } = "";
-        public int Deposit { get; set; }
-        public int Remain { get; set; }
+        public long Deposit { get; set; }
+        public long Remain { get; set; }
         public string PaidBy { get; set; } = "신랑";
         public bool ReviewDone { get; set; }
         public string Memo { get; set; } = "";
@@ -151,7 +276,7 @@
             get => Deposit.ToString("N0");
             set
             {
-                if (int.TryParse(value.Replace(",", "").Replace("원", "").Trim(), out var v))
+                if (long.TryParse(value.Replace(",", "").Replace("원", "").Trim(), out var v))
                     Deposit = v;
             }
         }
@@ -160,13 +285,36 @@
             get => Remain.ToString("N0");
             set
             {
-                if (int.TryParse(value.Replace(",", "").Replace("원", "").Trim(), out var v))
+                if (long.TryParse(value.Replace(",", "").Replace("원", "").Trim(), out var v))
                     Remain = v;
             }
         }
     }
 
     List<ChecklistItem> Items = new List<ChecklistItem>();
+    
+    public CategoryPeriod GetCategoryPeriod(CategoryType category)
+    {
+        return category switch
+        {
+            CategoryType.상견례 => CategoryPeriod.본식전,
+            CategoryType.야외촬영 => CategoryPeriod.본식전,
+            CategoryType.스튜디오 => CategoryPeriod.본식전,
+            CategoryType.드레스 => CategoryPeriod.본식전,
+            CategoryType.메이크업 => CategoryPeriod.본식전,
+            CategoryType.혼주한복 => CategoryPeriod.본식전,
+            CategoryType.예물 => CategoryPeriod.본식전,
+            CategoryType.예복 => CategoryPeriod.본식전,
+            CategoryType.DVD => CategoryPeriod.본식전,
+
+            CategoryType.본식 => CategoryPeriod.본식,
+
+            CategoryType.본식사례금 => CategoryPeriod.본식후,
+            CategoryType.신혼여행 => CategoryPeriod.본식후,
+
+            _ => CategoryPeriod.기타
+        };
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -190,9 +338,17 @@
         }
     }
 
-    void AddItem()
+    // 각 카테고리별 항목 추가
+    void AddItem(CategoryPeriod period)
     {
-        Items.Add(new ChecklistItem());
+        CategoryType categoryType = period switch
+        {
+            CategoryPeriod.본식전 => CategoryType.상견례,
+            CategoryPeriod.본식 => CategoryType.본식,
+            CategoryPeriod.본식후 => CategoryType.신혼여행,
+            _ => CategoryType.기타
+        };
+        Items.Add(new ChecklistItem { Category = categoryType });
     }
 
     void RemoveItem(ChecklistItem item)
@@ -213,7 +369,7 @@
         }
     }
 
-    private Color GetTotalAmountColor(int amount)
+    private Color GetTotalAmountColor(long amount)
     {
         return amount switch
         {
@@ -224,7 +380,14 @@
         };
     }
 
-    private int GetTotalAmount()
+    private long GetTotalAmountByCategoryPeriod(CategoryPeriod period)
+    {
+        return Items
+            .Where(item => GetCategoryPeriod(item.Category) == period)
+            .Sum(item => item.Deposit + item.Remain);
+    }
+
+    private long GetTotalAmount()
     {
         return Items.Sum(item => item.Deposit + item.Remain);
     }
@@ -236,11 +399,69 @@
 
     void ParseDeposit(ChecklistItem item)
     {
-        // 입력값을 포맷팅해서 다시 보여줌
-        item.DepositString = item.Deposit.ToString("N0");
+        if (long.TryParse(item.DepositString.Replace(",", "").Replace("원", "").Trim(), out var v))
+        {
+            item.Deposit = v;
+        }
+        else
+        {
+            item.Deposit = 0;  // 잘못된 값 처리 (예: 빈 칸을 처리)
+        }
     }
+
     void ParseRemain(ChecklistItem item)
     {
-        item.RemainString = item.Remain.ToString("N0");
+        if (long.TryParse(item.RemainString.Replace(",", "").Replace("원", "").Trim(), out var v))
+        {
+            item.Remain = v;
+        }
+        else
+        {
+            item.Remain = 0;  // 잘못된 값 처리 (예: 빈 칸을 처리)
+        }
     }
+    async Task ExportToExcel()
+{
+    var exportList = new List<object>();
+
+    foreach (CategoryPeriod period in Enum.GetValues(typeof(CategoryPeriod)))
+    {
+        // 그룹 제목 (예: "본식 전")
+        exportList.Add(new { 카테고리 = $"[{period}]" });
+
+        // 해당 그룹 항목
+        var groupItems = Items
+            .Where(i => GetCategoryPeriod(i.Category) == period)
+            .ToList();
+
+        foreach (var item in groupItems)
+        {
+            exportList.Add(new
+            {
+                카테고리 = item.Category.ToString(),
+                항목 = item.Title,
+                업체명 = item.Vendor,
+                계약금 = item.Deposit,
+                잔금 = item.Remain,
+                최종금액 = item.Deposit + item.Remain,
+                담당자 = item.PaidBy,
+                후기작성 = item.ReviewDone ? "O" : "X",
+                비고 = item.Memo
+            });
+        }
+
+        // 그룹 총합
+        long groupTotal = groupItems.Sum(i => i.Deposit + i.Remain);
+        exportList.Add(new { 카테고리 = $"[{period} 총합]: {groupTotal:N0}원" });
+
+        // 구분 행 (빈 행)
+        exportList.Add(new { 카테고리 = "" });
+    }
+
+    // 전체 총합
+    long total = Items.Sum(i => i.Deposit + i.Remain);
+    exportList.Add(new { 카테고리 = $"[전체 총합]: {total:N0}원" });
+
+    await JS.InvokeVoidAsync("exportToExcel", exportList, "결혼준비체크리스트");
+}
 }
