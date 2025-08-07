@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "DDB0J0oK",
+  "version": "he/pXSx5",
   "assets": [
     {
       "hash": "sha256-YbBfSo8K65CMGQzcBfMVclo9mD6w+FEo2oW+cdSOueI=",
@@ -178,11 +178,11 @@ self.assetsManifest = {
       "url": "_framework/System.t8xd33e5pv.wasm"
     },
     {
-      "hash": "sha256-8jn3lNs55BEVlZA5yU6WHyBX1Mq9nuy7yf9cbiagbfI=",
-      "url": "_framework/WeddingCheckList.6n7h9w5mrs.wasm"
+      "hash": "sha256-34XpSyyEfKLuCCpkCgfxwERJyrrBUJcPo5gfzVVQKMs=",
+      "url": "_framework/WeddingCheckList.5nuwngar4n.wasm"
     },
     {
-      "hash": "sha256-XW1eFUKn0qWj+FH/f2TS769c/GU+i33tqC65Oifzzhc=",
+      "hash": "sha256-6qbasN2Fzw4vJ9S5VT3KkvjGhMtmopwHT0zZRhayvTI=",
       "url": "_framework/blazor.boot.json"
     },
     {
