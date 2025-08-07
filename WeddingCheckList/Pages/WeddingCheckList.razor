@@ -179,12 +179,11 @@
     RenderFragment RenderCategoryGroup(CategoryPeriod period) => @<MudTable Items="@(Items.Where(i => GetCategoryPeriod(i.Category) == period))" Hover="true" Elevation="1" Striped="true" Dense="true" Class="mt-4">
         <HeaderContent>
             <MudTh Style="min-width: 140px;">카테고리</MudTh>
-            <MudTh Style="min-width: 150px;">항목</MudTh>
             <MudTh Style="min-width: 120px;">업체명</MudTh>
             <MudTh Style="min-width: 120px;">계약금</MudTh>
             <MudTh Style="min-width: 120px;">잔금</MudTh>
             <MudTh Style="min-width: 120px;">최종 금액</MudTh>
-            <MudTh Style="min-width: 100px;">담당자</MudTh>
+            <MudTh Style="min-width: 100px;">결제자</MudTh>
             <MudTh Style="min-width: 80px;">후기</MudTh>
             <MudTh Style="min-width: 120px;">비고</MudTh>
             <MudTh Style="min-width: 80px;">삭제</MudTh>
@@ -200,9 +199,6 @@
                     }
                 }
             </MudSelect>
-        </MudTd>
-        <MudTd>
-            <MudTextField @bind-Value="context.Title" Variant="Variant.Outlined" Size="Size.Small" Placeholder="예: 웨딩홀 예약" dense="true" />
         </MudTd>
         <MudTd>
             <MudTextField @bind-Value="context.Vendor" Variant="Variant.Outlined" Size="Size.Small" Placeholder="업체명" dense="true" />
@@ -264,7 +260,6 @@
     public class ChecklistItem
     {
         public CategoryType Category { get; set; }
-        public string Title { get; set; } = "";
         public string Vendor { get; set; } = "";
         public long Deposit { get; set; }
         public long Remain { get; set; }
@@ -439,7 +434,6 @@
             exportList.Add(new
             {
                 카테고리 = item.Category.ToString(),
-                항목 = item.Title,
                 업체명 = item.Vendor,
                 계약금 = item.Deposit,
                 잔금 = item.Remain,
