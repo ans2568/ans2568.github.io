@@ -189,7 +189,7 @@
             <MudTh Style="min-width: 80px;">삭제</MudTh>
         </HeaderContent>
     <RowTemplate>
-        <MudTd>
+        <MudTd @key="context.Id">
             <MudSelect T="CategoryType" @bind-Value="context.Category" Variant="Variant.Outlined" Size="Size.Medium" Style="min-width:140px;">
                 @foreach (CategoryType category in Enum.GetValues(typeof(CategoryType)))
                 {
@@ -223,7 +223,11 @@
             </MudSelect>
         </MudTd>
         <MudTd>
-            <MudCheckBox T="bool" @bind-Checked="context.ReviewDone" Color="Color.Success" />
+            <div class="custom-mud-checkbox">
+                <input type="checkbox" id="chk_@context.Id" checked="@context.ReviewDone"
+                       @onchange="e => context.ReviewDone = ((ChangeEventArgs)e).Value as bool? ?? false" />
+                <label for="chk_@context.Id"></label>
+            </div>
         </MudTd>
         <MudTd>
             <MudTextField @bind-Value="context.Memo" Variant="Variant.Outlined" Size="Size.Small" Placeholder="메모" dense="true" />
@@ -260,6 +264,7 @@
 
     public class ChecklistItem
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public CategoryType Category { get; set; }
         public string Vendor { get; set; } = "";
         public long Deposit { get; set; }
@@ -288,13 +293,13 @@
     }
 
     List<ChecklistItem> Items = new List<ChecklistItem>();
-    
+
     public CategoryPeriod GetCategoryPeriod(CategoryType category)
     {
         return category switch
         {
-        CategoryType.웨딩홀 => CategoryPeriod.본식전,
-        CategoryType.상견례 => CategoryPeriod.본식전,
+            CategoryType.웨딩홀 => CategoryPeriod.본식전,
+            CategoryType.상견례 => CategoryPeriod.본식전,
             CategoryType.야외촬영 => CategoryPeriod.본식전,
             CategoryType.스튜디오 => CategoryPeriod.본식전,
             CategoryType.드레스 => CategoryPeriod.본식전,
