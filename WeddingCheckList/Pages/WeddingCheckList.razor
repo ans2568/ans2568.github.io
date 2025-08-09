@@ -242,6 +242,7 @@
     }
     public enum CategoryType
     {
+        웨딩홀,
         상견례,
         본식,
         본식사례금,
@@ -292,7 +293,8 @@
     {
         return category switch
         {
-            CategoryType.상견례 => CategoryPeriod.본식전,
+        CategoryType.웨딩홀 => CategoryPeriod.본식전,
+        CategoryType.상견례 => CategoryPeriod.본식전,
             CategoryType.야외촬영 => CategoryPeriod.본식전,
             CategoryType.스튜디오 => CategoryPeriod.본식전,
             CategoryType.드레스 => CategoryPeriod.본식전,
@@ -338,7 +340,7 @@
     {
         CategoryType categoryType = period switch
         {
-            CategoryPeriod.본식전 => CategoryType.상견례,
+            CategoryPeriod.본식전 => CategoryType.웨딩홀,
             CategoryPeriod.본식 => CategoryType.본식,
             CategoryPeriod.본식후 => CategoryType.신혼여행,
             _ => CategoryType.기타
