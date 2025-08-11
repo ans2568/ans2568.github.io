@@ -21,6 +21,8 @@
 
 .custom-mud-checkbox input[type="checkbox"] {
     display: none;
+    justify-content: center;
+    align-items: center;
 }
 
 .custom-mud-checkbox label {

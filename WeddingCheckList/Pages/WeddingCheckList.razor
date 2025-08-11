@@ -177,66 +177,65 @@
 
 @code {
     RenderFragment RenderCategoryGroup(CategoryPeriod period) => @<MudTable Items="@(Items.Where(i => GetCategoryPeriod(i.Category) == period))" Hover="true" Elevation="1" Striped="true" Dense="true" Class="mt-4">
-        <HeaderContent>
-            <MudTh Style="min-width: 140px;">카테고리</MudTh>
-            <MudTh Style="min-width: 120px;">업체명</MudTh>
-            <MudTh Style="min-width: 120px;">계약금</MudTh>
-            <MudTh Style="min-width: 120px;">잔금</MudTh>
-            <MudTh Style="min-width: 120px;">최종 금액</MudTh>
-            <MudTh Style="min-width: 100px;">결제자</MudTh>
-            <MudTh Style="min-width: 80px;">후기</MudTh>
-            <MudTh Style="min-width: 120px;">비고</MudTh>
-            <MudTh Style="min-width: 80px;">삭제</MudTh>
-        </HeaderContent>
+    <HeaderContent>
+        <MudTh Class="text-center" Style="width:7.84%;">카테고리</MudTh>
+        <MudTh Class="text-center" Style="width:10.76%;">업체명</MudTh>
+        <MudTh Class="text-center" Style="width:8.80%;">계약금</MudTh>
+        <MudTh Class="text-center" Style="width:8.80%;">잔금</MudTh>
+        <MudTh Class="text-center" Style="width:8.80%;">최종 금액</MudTh>
+        <MudTh Class="text-center" Style="width:5.00%;">결제자</MudTh>
+        <MudTh Class="text-center" Style="width:5.00%;">후기</MudTh>
+        <MudTh Class="text-center" Style="width:40.00%;">비고</MudTh>
+        <MudTh Class="text-center" Style="width:5.00%;">삭제</MudTh>
+    </HeaderContent>
     <RowTemplate>
-        <MudTd @key="context.Id">
-            <MudSelect T="CategoryType" @bind-Value="context.Category" Variant="Variant.Outlined" Size="Size.Medium" Style="min-width:140px;">
+        <MudTd Style="padding-left:4px; padding-right:4px; width:7.84%;" @key="context.Id" Class="text-center">
+            <MudSelect T="CategoryType" @bind-Value="context.Category" Variant="Variant.Outlined" Size="Size.Medium" Style="width:100%;">
                 @foreach (CategoryType category in Enum.GetValues(typeof(CategoryType)))
-                {
-                    if (GetCategoryPeriod(category) == GetCategoryPeriod(context.Category))
-                    {
-                        <MudSelectItem T="CategoryType" Value="@category">@category.ToString()</MudSelectItem>
-                    }
-                }
+                                {
+                                if (GetCategoryPeriod(category) == GetCategoryPeriod(context.Category))
+                                {
+                <MudSelectItem T="CategoryType" Value="@category">@category.ToString()</MudSelectItem>
+                                }
+                                }
             </MudSelect>
         </MudTd>
-        <MudTd>
-            <MudTextField @bind-Value="context.Vendor" Variant="Variant.Outlined" Size="Size.Small" Placeholder="업체명" dense="true" />
+        <MudTd Style="padding-left:4px; padding-right:4px; width:10.76%;" Class="text-center">
+            <MudTextField @bind-Value="context.Vendor" Variant="Variant.Outlined" Size="Size.Small" Placeholder="업체명" dense="true" Style="width:100%;" />
         </MudTd>
-        <MudTd>
+        <MudTd Style="padding-left:4px; padding-right:4px; width:8.80%;" Class="text-center">
             <MudTextField @bind-Value="context.DepositString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" Adornment="Adornment.End" AdornmentText="원"
-                  InputType="InputType.Text" Class="text-end" OnBlur="@(() => ParseDeposit(context))" Style="min-width:120px;" />
+                          InputType="InputType.Text" Class="text-end" OnBlur="@(() => ParseDeposit(context))" dense="true" Style="width:100%;" />
         </MudTd>
-        <MudTd>
+        <MudTd Style="padding-left:4px; padding-right:4px; width:8.80%;" Class="text-center">
             <MudTextField @bind-Value="context.RemainString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" Adornment="Adornment.End" AdornmentText="원"
-                  InputType="InputType.Text" Class="text-end" OnBlur="@(() => ParseRemain(context))" Style="min-width:120px;" />
+                          InputType="InputType.Text" Class="text-end" OnBlur="@(() => ParseRemain(context))" dense="true" Style="width:100%;" />
         </MudTd>
-        <MudTd>
-            <MudChip T="string" Color="@(GetTotalAmountColor(context.Deposit + context.Remain))" Size="Size.Small">
-                @((context.Deposit + context.Remain).ToString("N0"))원
-            </MudChip>
+        <MudTd Style="padding-left:4px; padding-right:4px; width:8.80%;" Class="text-center">
+            <MudTextField Value="context.TotalString" Variant="Variant.Outlined" Size="Size.Medium" Placeholder="0" Adornment="Adornment.End" AdornmentText="원"
+                          ReadOnly="true" Class="text-end" Style="width:100%;" />
         </MudTd>
-        <MudTd>
-            <MudSelect T="string" @bind-Value="context.PaidBy" Variant="Variant.Outlined" Size="Size.Small" dense="true">
+        <MudTd Style="padding-left:4px; padding-right:4px; width:5.00%;" Class="text-center">
+            <MudSelect T="string" @bind-Value="context.PaidBy" Variant="Variant.Outlined" Size="Size.Small" dense="true" Style="width:100%;">
                 <MudSelectItem Value="@("신랑")">신랑</MudSelectItem>
                 <MudSelectItem Value="@("신부")">신부</MudSelectItem>
             </MudSelect>
         </MudTd>
-        <MudTd>
-            <div class="custom-mud-checkbox">
+        <MudTd Style="padding-left:4px; padding-right:4px; width:5.00%;" Class="text-center">
+            <div class="custom-mud-checkbox" style="width:100%">
                 <input type="checkbox" id="chk_@context.Id" checked="@context.ReviewDone"
                        @onchange="e => context.ReviewDone = ((ChangeEventArgs)e).Value as bool? ?? false" />
                 <label for="chk_@context.Id"></label>
             </div>
         </MudTd>
-        <MudTd>
-            <MudTextField @bind-Value="context.Memo" Variant="Variant.Outlined" Size="Size.Small" Placeholder="메모" dense="true" />
+        <MudTd Style="padding-left:4px; padding-right:4px; width:40.00%;" Class="text-center">
+            <MudTextField @bind-Value="context.Memo" Variant="Variant.Outlined" Size="Size.Small" Placeholder="메모" dense="true" Style="width:100%;" />
         </MudTd>
-        <MudTd>
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => RemoveItem(context))" />
+        <MudTd Style="padding-left:4px; padding-right:4px; width:5.00%;" Class="text-center">
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => RemoveItem(context))" Style="width:100%;" />
         </MudTd>
     </RowTemplate>
-    </MudTable>;
+</MudTable>;
     public enum CategoryPeriod
     {
         본식전,
@@ -289,6 +288,10 @@
                 if (long.TryParse(value.Replace(",", "").Replace("원", "").Trim(), out var v))
                     Remain = v;
             }
+        }
+        public string TotalString
+        {
+            get => (Deposit+Remain).ToString("N0");
         }
     }
 
