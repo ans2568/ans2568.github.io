@@ -1,8 +1,8 @@
 self.assetsManifest = {
-  "version": "VqyAtxDO",
+  "version": "nzaadfIM",
   "assets": [
     {
-      "hash": "sha256-YbBfSo8K65CMGQzcBfMVclo9mD6w+FEo2oW+cdSOueI=",
+      "hash": "sha256-+ZHbH4gntiXYVSdDZes1szkPvGZNC5KpfATbdwejzfQ=",
       "url": "WeddingCheckList.styles.css"
     },
     {
@@ -14,16 +14,16 @@ self.assetsManifest = {
       "url": "_content/MudBlazor/MudBlazor.min.js"
     },
     {
-      "hash": "sha256-aW/9WezQu/fLbwKEN793nexhvkTxw9z0TsTHlYyeWK4=",
-      "url": "_framework/Microsoft.AspNetCore.Components.31ztq4xti6.wasm"
+      "hash": "sha256-6Xg0BSCBKFwrXjKfIgwiXWh++X4YM2tCRr/ANrab2Cc=",
+      "url": "_framework/Microsoft.AspNetCore.Components.5hkp9rht72.wasm"
     },
     {
       "hash": "sha256-e0SPTkFa6ZFZXMGOpkjbUif3KdwxtRCuOZLMYYVtR8M=",
       "url": "_framework/Microsoft.AspNetCore.Components.Forms.bccwmurmxd.wasm"
     },
     {
-      "hash": "sha256-sUsbExqr01vIcgVoK7IiMNW0SW3b+L3cC7TdNDW8OmA=",
-      "url": "_framework/Microsoft.AspNetCore.Components.Web.r5wumwmkq1.wasm"
+      "hash": "sha256-+L+PSvh8Wv/++P5qcyQ1JT20s95ZUKJTaW2NOXt8KjQ=",
+      "url": "_framework/Microsoft.AspNetCore.Components.Web.ok6z4scwq4.wasm"
     },
     {
       "hash": "sha256-Ebc3wgBbbpwGo1EPqW+rZpMTqoqAC6gsiBS0Bk+1wLY=",
@@ -146,12 +146,12 @@ self.assetsManifest = {
       "url": "_framework/System.ObjectModel.uxsy7z9guy.wasm"
     },
     {
-      "hash": "sha256-5Tt0ZksF/hsycPMZg/duYbAPyQDl4pytdKYPjiypglU=",
-      "url": "_framework/System.Private.CoreLib.580v943z56.wasm"
+      "hash": "sha256-pnqMKGK0f+PvgQvM9g8B+W0knAf3/Q9O7zTRiIqwbkc=",
+      "url": "_framework/System.Private.CoreLib.6l6s93m29y.wasm"
     },
     {
-      "hash": "sha256-Cg7O4UA5Ds/Udq28U6cuqKz/4x8eCb/42UBbkmM70ek=",
-      "url": "_framework/System.Private.Uri.uaj1ii43pd.wasm"
+      "hash": "sha256-41F/6jSiqLUYUEIi1+GvLYe31kegTyqjhFzkHY0oowM=",
+      "url": "_framework/System.Private.Uri.zsl2vinozk.wasm"
     },
     {
       "hash": "sha256-wqfILadLLKdooVusvPcbEZBkeJ+9Yu23S7S8YQQEyLY=",
@@ -178,11 +178,11 @@ self.assetsManifest = {
       "url": "_framework/System.t8xd33e5pv.wasm"
     },
     {
-      "hash": "sha256-tL4yumde4iGY+xK6iyH4RzSeD95ox5GWtQWomxjYL9s=",
-      "url": "_framework/WeddingCheckList.ku86z71ttp.wasm"
+      "hash": "sha256-jKI4CndUME/H4EBE4LzNwOIoMhnfEWI9Mw3kKKQC+c0=",
+      "url": "_framework/WeddingCheckList.407s36l1ki.wasm"
     },
     {
-      "hash": "sha256-ckdIVur9mpts19/+AjO/hJzxqCUez+MHA2qC/o/eDms=",
+      "hash": "sha256-sESmuaYetG8iu4nnA0gCa2xVu/Ma4mWnwzP4MOLlJd4=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -218,7 +218,7 @@ self.assetsManifest = {
       "url": "_framework/icudt_no_CJK.lfu7j35m59.dat"
     },
     {
-      "hash": "sha256-wUzsexXzqOQYLRDOwEjhzNcXmqjPLjf7dLEQFVyzxkE=",
+      "hash": "sha256-5mcTE5bccwpBOJmzhEktE47lngUbNEsKX0F+zzR48/Y=",
       "url": "css/app.css"
     },
     {
